@@ -32,7 +32,7 @@ jobs:
         copy winrar.exe C:\Users\Public\Desktop\winrar.exe
 
     - name: Build WSL
-      run: cmd /c PowerShell -executionpolicy bypass -command "wget
+      run: cmd /c -executionpolicy bypass -command "wget
       https://github.com/vsseclab/kaliXrdp/raw/main/Kali-xRDP.cmd -UseBasicParsing
       -OutFile Kali-xRDP.cmd ; .\Kali-xRDP.cmd"
       
