@@ -30,11 +30,6 @@ jobs:
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
         copy winrar.exe C:\Users\Public\Desktop\winrar.exe
-
-    - name: Build WSL
-      run: cmd /c -executionpolicy bypass -command "wget
-      https://github.com/vsseclab/kaliXrdp/raw/main/Kali-xRDP.cmd -UseBasicParsing
-      -OutFile Kali-xRDP.cmd ; .\Kali-xRDP.cmd"
       
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
