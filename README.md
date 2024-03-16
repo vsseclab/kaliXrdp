@@ -11,7 +11,7 @@ The install script is meant to be run on a new Kali Linux installation from the 
 
 **INSTRUCTIONS:  Open a NEW elevated command prompt window (admin rights are required to open firewall ports for RDP and SSH) then type/paste the following command:**
 
-    PowerShell -executionpolicy bypass -command "wget https://github.com/DesktopECHO/Kali-xRDP/raw/main/Kali-xRDP.cmd -UseBasicParsing -OutFile Kali-xRDP.cmd ; .\Kali-xRDP.cmd"
+    PowerShell -executionpolicy bypass -command "wget https://github.com/DesktopECHO/Kali-xRDP/raw/main/kaliXrdp.cmd -UseBasicParsing -OutFile kaliXrdp.cmd ; .\kaliXrdp.cmd"
     
 You will be asked a few questions.  The installer script determines the current Windows DPI scaling of your system but you may set your own if preferred:
 
