@@ -19,10 +19,10 @@ REM ## Acquire LxRunOffline
 cp -r D:\a\kaliXrdp\kaliXrdp %TEMP%\kaliXrdp >NUL 2>&1
 IF NOT EXIST "%TEMP%\kaliXrdp\LxRunOffline.exe" POWERSHELL.EXE -Command
 "[Net.ServicePointManager]::SecurityProtocol =
-[Net.SecurityProtocolType]::Tls12; wget https://github.com/vsseclab/Pi-Hole-for-WSL1/raw/master/LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip
+[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest https://github.com/vsseclab/Pi-Hole-for-WSL1/raw/master/LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip
 -UseBasicParsing -OutFile '%TEMP%\kaliXrdp\LxRunOffline.zip' ; Expand-Archive
 -Path '%TEMP%\kaliXrdp\LxRunOffline.zip' -DestinationPath '%TEMP%' -Force ; cp
--r '%TEMP%\kaliXrdp\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc\*.exe' '%TEMP%'" > NUL
+-r '%TEMP%\kaliXrdp\LxRunOffline\*.exe' '%TEMP%'" > NUL
 
 REM ## Find system DPI setting and get installation parameters
 IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
