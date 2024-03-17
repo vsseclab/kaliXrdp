@@ -17,7 +17,13 @@ PowerShell.exe -Command "wsl -d kali-linux -e 'uname' > $env:TEMP\DistroTestAliv
 
 REM ## Acquire LxRunOffline
 CP D:\a\kaliXrdp\kaliXrdp %TEMP%\kaliXrdp >NUL 2>&1
-IF NOT EXIST "%TEMP%\kaliXrdp\LxRunOffline.exe" POWERSHELL.EXE -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; wget https://github.com/vsseclab/Pi-Hole-for-WSL1/blob/master/LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip?raw=true -UseBasicParsing -OutFile '%TEMP%\kaliXrdp\LxRunOffline.zip' ; Expand-Archive -Path '%TEMP%\kaliXrdp\LxRunOffline.zip' -DestinationPath '%TEMP%' -Force ; copy '%TEMP%\kaliXrdp\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc\*.exe' '%TEMP%'" > NUL
+IF NOT EXIST "%TEMP%\kaliXrdp\LxRunOffline.exe" POWERSHELL.EXE -Command
+"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+; wget
+https://github.com/DesktopECHO/Pi-Hole-for-WSL1/blob/master/LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip?raw=true
+-UseBasicParsing -OutFile '%TEMP%\kaliXrdp\LxRunOffline.zip' ; Expand-Archive
+-Path '%TEMP%\kaliXrdp\LxRunOffline.zip' -DestinationPath '%TEMP%' -Force ; copy
+'%TEMP%\kaliXrdp\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc\*.exe' '%TEMP%'" > NUL
 
 REM ## Find system DPI setting and get installation parameters
 IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
