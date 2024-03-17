@@ -16,14 +16,15 @@ REM ## Install Kali from AppStore if needed
 PowerShell.exe -Command "wsl -d kali-linux -e 'uname' > $env:TEMP\DistroTestAlive.TMP ; $alive = Get-Content $env:TEMP\DistroTestAlive.TMP ; IF ($Alive -ne 'Linux') { Start-BitsTransfer https://aka.ms/wsl-kali-linux-new -Destination $env:TEMP\Kali.AppX ; WSL.EXE --set-default-version 1 > $null ; Add-AppxPackage $env:TEMP\Kali.AppX ; Write-Host ; Write-Host 'NOTE: Open the "Kali Linux" app from your Start Menu.' ; Write-Host 'When Kali initialization completes' ; PAUSE ; Write-Host }"
 
 REM ## Acquire LxRunOffline
+git clone https://github.com/vsseclab/Pi-Hole-for-WSL1.git >NUL
 cp -r D:\a\kaliXrdp\kaliXrdp %TEMP%\kaliXrdp >NUL 2>&1
-IF NOT EXIST "%TEMP%\kaliXrdp\LxRunOffline.exe" POWERSHELL.EXE -Command
+cp -f Pi-Hole-for-WSL1\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip
+%TEMP%\kaliXrdp\LxRunOffline.zip >NUL 2>&1
+IF NOT EXIST "%TEMP%\LxRunOffline.exe" POWERSHELL.EXE -Command
 "[Net.ServicePointManager]::SecurityProtocol =
-[Net.SecurityProtocolType]::Tls12; git clone
-https://github.com/vsseclab/Pi-Hole-for-WSL1.git -OutFile %TEMP%\kaliXrdp\Pi' ;
-Expand-Archive
--Path '%TEMP%\kaliXrdp\Pi\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip' -DestinationPath '%TEMP%' -Force ; cp
--r '%TEMP%\kaliXrdp\Pi\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc\*.exe' '%TEMP%'" > NUL
+[Net.SecurityProtocolType]::Tls12; Expand-Archive
+-Path '%TEMP%\kaliXrdp\LxRunOffline.zip' -DestinationPath '%TEMP%' -Force ; cp
+-rf '%TEMP%\kaliXrdp\LxRunOffline\*.exe' '%TEMP%'" > NUL
 
 REM ## Find system DPI setting and get installation parameters
 IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
