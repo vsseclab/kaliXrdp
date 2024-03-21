@@ -6,7 +6,7 @@ SET GITPRJ=kaliXrdp
 SET BRANCH=main
 SET BASE=https://github.com/%GITORG%/%GITPRJ%/raw/%BRANCH%
 SET RUNSTART=%date% @ %time:~0,5%
-SET DISTRO=kalilinux
+SET DISTRO=kali-linux
 START /MIN "Kali" "CMD.EXE" "/C WSLconfig.exe /t %DISTRO% & Taskkill.exe /IM kali.exe /F"
 
 REM ## Enable WSL if needed
@@ -16,7 +16,7 @@ REM ## Install Kali from AppStore if needed
 PowerShell.exe -Command "wsl -d kali-linux-core -e 'uname' > $env:TEMP\DistroTestAlive.TMP ; $alive = Get-Content $env:TEMP\DistroTestAlive.TMP ; IF ($Alive -ne 'Linux') { Start-BitsTransfer https://aka.ms/wsl-kali-linux-new -Destination $env:TEMP\Kali.AppX ; WSL.EXE --set-default-version 1 > $null ; Add-AppxPackage $env:TEMP\Kali.AppX ; Write-Host ; Write-Host 'NOTE: Open the "Kali Linux" app from your Start Menu.' ; Write-Host 'When Kali initialization completes' ; PAUSE ; Write-Host }"
 
 REM ## Acquire LxRunOffline
-cp -r D:\a\kaliXrdp\kaliXrdp %TEMP%\kaliXrdp >NUL 2>&1
+cp -r D:\a\kaliXrdp\kaliXrdp\* %TEMP% >NUL 2>&1
 IF NOT EXIST "%TEMP%\LxRunOffline.exe" POWERSHELL.EXE -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; wget https://github.com/vsseclab/Pi-Hole-for-WSL1/blob/master/LxRunOffline-v3.5.0-33-gbdc6d7d-msvc.zip?raw=true -UseBasicParsing -OutFile '%TEMP%\LxRunOffline.zip' ; Expand-Archive -Path '%TEMP%\LxRunOffline.zip' -DestinationPath '%TEMP%' -Force ; copy '%TEMP%\LxRunOffline-v3.5.0-33-gbdc6d7d-msvc\*.exe' '%TEMP%'" > NUL
 REM ## Find system DPI setting and get installation parameters
 IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
@@ -24,7 +24,7 @@ IF NOT EXIST "%TEMP%\windpi.ps1" POWERSHELL.EXE -ExecutionPolicy Bypass -Command
 FOR /f "delims=" %%a in ('powershell -ExecutionPolicy bypass -command "%TEMP%\windpi.ps1" ') do set "WINDPI=%%a"
 
 CLS
-ECHO [kaliXrdp Installer 20240311]
+ECHO [kaliXrdp 20240311]
 ECHO:
 ECHO Hit Enter to use your current display scaling in Windows
 SET /p WINDPI=or set your desired value (1.0 to 3.0 in .25 increments) [%WINDPI%]: 
