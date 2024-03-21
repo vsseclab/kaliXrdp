@@ -6,7 +6,7 @@ SET GITPRJ=kaliXrdp
 SET BRANCH=main
 SET BASE=https://github.com/%GITORG%/%GITPRJ%/raw/%BRANCH%
 SET RUNSTART=%date% @ %time:~0,5%
-SET DISTRO=kali-linux
+SET DISTRO=kalilinux
 START /MIN "Kali" "CMD.EXE" "/C WSLconfig.exe /t %DISTRO% & Taskkill.exe /IM kali.exe /F"
 
 REM ## Enable WSL if needed
@@ -34,7 +34,7 @@ FOR /f "delims=" %%a in ('PowerShell -Command 96 * "%WINDPI%" ') do set "LINDPI=
 FOR /f "delims=" %%a in ('PowerShell -Command 32 * "%WINDPI%" ') do set "PANEL=%%a"
 FOR /f "delims=" %%a in ('PowerShell -Command 48 * "%WINDPI%" ') do set "ICONS=%%a"
 SET DEFEXL=NONO& SET /p DEFEXL=[Not recommended!] Type [X] to eXclude from Windows Defender: 
-SET DISTROFULL="D:a/kaliXrdp"
+SET DISTROFULL="%TEMP%"
 SET /A SESMAN = %RDPPRT% - 50
 CD %DISTROFULL%
 %TEMP%\LxRunOffline.exe su -n %DISTRO% -v 0
@@ -55,7 +55,7 @@ ECHO:
 ECHO [%TIME:~0,8%] Prepare Distro                          (ETA: 1m30s)
 %GO% "cd D:a/kaliXrdp ; dpkg --purge --force-all locales-all ; DEBIAN_FRONTEND=noninteractive apt-get download kali-archive-keyring libc-bin libc-l10n libc6 libpam0g locales-all libcrypt1 libgcc-s1 libstdc++6 libpam-runtime libpam-modules-bin libpam-modules gcc-14-base libzstd1 ; DEBIAN_FRONTEND=noninteractive dpkg -i --force-all ./*.deb 2> /dev/null; rm ./*.deb ; DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install git gnupg2 libc-ares2 libssh2-1 libaria2-0 aria2 acl pciutils ; echo 'exit 0' > /usr/bin/lspci ; echo 'exit 0' > /usr/bin/setfacl ; rm -rf %GITPRJ% ; echo 'Clone Git repo...' ; git clone --quiet -b %BRANCH% --depth=1 https://github.com/%GITORG%/%GITPRJ%.git ; chmod +x D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/* ; cp -p D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/systemd-sysusers /usr/local/bin ; apt-get -fy install systemd --no-install-recommends ; cp -p D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/systemd-sysusers /usr/bin ; apt-get -fy install" > "%TEMP%\kaliXrdp\%TIME:~0,2%%TIME:~3,2%%TIME:~6,2% Prepare Distro.log" 2>&1 
 
-%GO% "find D:a/kaliXrdp/kaliXrdp -type d -exec chmod 755 {} \;"
+%GO% "find /tmp -type d -exec chmod 755 {} \;"
 %GO% "find D:a/kaliXrdp/�kaliXrdp -type f -exec chmod 644 {} \;"
 %GO% "chmod +x D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/* ; cp -p D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/apt-fast /usr/local/bin ; chmod 755 D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/profile.d/xWSL.sh D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/xrdp/startwm.sh D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/bin/pm-is-supported D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/restartwsl D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/initwsl ; chmod -R 7700 D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/skel/.local"
 
@@ -74,21 +74,21 @@ ECHO [%TIME:~0,8%] Extras [Seamonkey, Zenmap, CRD]         (ETA: 1m30s)
 %GO% "which schtasks.exe" > "%TEMP%\SCHT.tmp" & set /p SCHT=<"%TEMP%\SCHT.tmp"
 %GO% "sed -i 's#SCHT#%SCHT%#g' D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/restartwsl ; sed -i 's#DISTRO#%DISTRO%#g' D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/usr/local/bin/restartwsl"
 
-IF %LINDPI% GEQ 288 ( %GO% "sed -i 's/HISCALE/3/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/3/g' D:a/kaliXrdp/kaliXrdp/dist/etc/profile.d/xWSL.sh" )
-IF %LINDPI% GEQ 240 ( %GO% "sed -i 's/QQQ/120/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/60/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/40/g' D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
-IF %LINDPI% GEQ 192 ( %GO% "sed -i 's/HISCALE/2/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/2/g' D:a/kaliXrdp/kaliXrdp/dist/etc/profile.d/xWSL.sh" )
-IF %LINDPI% GEQ 192 ( %GO% "sed -i 's/Kali-Dark-HiDPI/Kali-Dark-xHiDPI/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml ; sed -i 's/QQQ/96/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/48/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/32/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
-IF %LINDPI% LSS 192 ( %GO% "sed -i 's/HISCALE/1/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/1/g' D:a/kaliXrdp/kaliXrdp/dist/etc/profile.d/xWSL.sh ; sed -i 's/QQQ/%LINDPI%/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/%ICONS%/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/%PANEL%/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
-IF %LINDPI% LSS 120 ( %GO% "sed -i 's/Kali-Dark-HiDPI/Kali-Dark/g' D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml" )
+IF %LINDPI% GEQ 288 ( %GO% "sed -i 's/HISCALE/3/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/3/g' /tmp/dist/etc/profile.d/xWSL.sh" )
+IF %LINDPI% GEQ 240 ( %GO% "sed -i 's/QQQ/120/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/60/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/40/g' D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
+IF %LINDPI% GEQ 192 ( %GO% "sed -i 's/HISCALE/2/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/2/g' /tmp/dist/etc/profile.d/xWSL.sh" )
+IF %LINDPI% GEQ 192 ( %GO% "sed -i 's/Kali-Dark-HiDPI/Kali-Dark-xHiDPI/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml ; sed -i 's/QQQ/96/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/48/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/32/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
+IF %LINDPI% LSS 192 ( %GO% "sed -i 's/HISCALE/1/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/HISCALE/1/g' /tmp/dist/etc/profile.d/xWSL.sh ; sed -i 's/QQQ/%LINDPI%/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml ; sed -i 's/III/%ICONS%/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml ; sed -i 's/PPP/%PANEL%/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml" )
+IF %LINDPI% LSS 120 ( %GO% "sed -i 's/Kali-Dark-HiDPI/Kali-Dark/g' /tmp/dist/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml" )
 
 %GO% "sed -i 's/\\h/%DISTRO%/g' D:\a\kaliXrdp\kaliXrdp/kaliXrdp/dist/etc/skel/.bashrc"
 %GO% "sed -i 's/#Port 22/Port %SSHPRT%/g' /etc/ssh/sshd_config"
 %GO% "sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config"
-%GO% "sed -i 's/WSLINSTANCENAME/%DISTRO%/g' D:a/kaliXrdp/kaliXrdp/dist/usr/local/bin/initwsl"
+%GO% "sed -i 's/WSLINSTANCENAME/%DISTRO%/g' /tmp/dist/usr/local/bin/initwsl"
 %GO% "sed -i 's/#enable-dbus=yes/enable-dbus=no/g' /etc/avahi/avahi-daemon.conf ; sed -i 's/#host-name=foo/host-name=%COMPUTERNAME%-%DISTRO%/g' /etc/avahi/avahi-daemon.conf ; sed -i 's/use-ipv4=yes/use-ipv4=no/g' /etc/avahi/avahi-daemon.conf"
 %GO% "cp /mnt/c/Windows/Fonts/*.ttf /usr/share/fonts/truetype ; ssh-keygen -A ; adduser xrdp ssl-cert &> /dev/null" > NUL
 %GO% "rm /usr/lib/systemd/system/dbus-org.freedesktop.login1.service /usr/share/dbus-1/system-services/org.freedesktop.login1.service /usr/share/polkit-1/actions/org.freedesktop.login1.policy ; rm /usr/share/dbus-1/services/org.freedesktop.systemd1.service /usr/share/dbus-1/system-services/org.freedesktop.systemd1.service /usr/share/dbus-1/system.d/org.freedesktop.systemd1.conf /usr/share/polkit-1/actions/org.freedesktop.systemd1.policy /usr/share/applications/gksu.desktop" > NUL 2>&1
-%GO% "cp -Rp D:a/kaliXrdp/kaliXrdp/dist/* / ; cp -Rp D:a/kaliXrdp/kaliXrdp/dist/etc/skel/.* /root ; chmod +x /etc/init.d/xrdp ; update-rc.d -f xrdp defaults ; update-rc.d -f inetutils-syslogd enable S 2 3 4 5 ; update-rc.d -f ssh enable S 2 3 4 5 ; update-rc.d -f avahi-daemon enable S 2 3 4 5 ; apt-get clean ; cd D:a/kaliXrdp" >NUL 2>&1
+%GO% "cp -Rp /tmp/dist/* / ; cp -Rp /tmp/dist/etc/skel/.* /root ; chmod +x /etc/init.d/xrdp ; update-rc.d -f xrdp defaults ; update-rc.d -f inetutils-syslogd enable S 2 3 4 5 ; update-rc.d -f ssh enable S 2 3 4 5 ; update-rc.d -f avahi-daemon enable S 2 3 4 5 ; apt-get clean ; cd D:a/kaliXrdp" >NUL 2>&1
 %GO% "setcap cap_net_raw+p /bin/ping"
 %GO% "sed -i 's/port=3389/port=%RDPPRT%/g' /etc/xrdp/xrdp.ini"
 %GO% "sed -i 's/thinclient_drives/.xWSL/g' /etc/xrdp/sesman.ini"
@@ -101,9 +101,9 @@ POWERSHELL -Command $prd = read-host "Enter password for %XU%" -AsSecureString ;
 %GO% "useradd -m -p nulltemp -s /bin/bash %XU%"
 %GO% "(echo '%XU%:%PWO%') | chpasswd"
 %GO% "echo '%XU% ALL=(ALL:ALL) ALL' >> /etc/sudoers"
-%GO% "sed -i 's/PLACEHOLDER/%XU%/g' D:a/kaliXrdp/kaliXrdp/xWSL.rdp"
-%GO% "sed -i 's/COMPY/LocalHost/g' D:a/kaliXrdp/kaliXrdp/xWSL.rdp"
-%GO% "sed -i 's/RDPPRT/%RDPPRT%/g' D:a/kaliXrdp/kaliXrdp/xWSL.rdp"
+%GO% "sed -i 's/PLACEHOLDER/%XU%/g' /tmp/xWSL.rdp"
+%GO% "sed -i 's/COMPY/LocalHost/g' /tmp/xWSL.rdp"
+%GO% "sed -i 's/RDPPRT/%RDPPRT%/g' /tmp/xWSL.rdp"
 %GO% "cp D:\a\kaliXrdp\kaliXrdp/kaliXrdp/xWSL.rdp ./xWSL._"
 ECHO $prd = Get-Content .tmp > .tmp.ps1
 ECHO ($prd ^| ConvertTo-SecureString -AsPlainText -Force) ^| ConvertFrom-SecureString ^| Out-File .tmp  >> .tmp.ps1
