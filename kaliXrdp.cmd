@@ -6,14 +6,14 @@ SET GITPRJ=kaliXrdp
 SET BRANCH=main
 SET BASE=https://github.com/%GITORG%/%GITPRJ%/raw/%BRANCH%
 SET RUNSTART=%date% @ %time:~0,5%
-SET DISTRO=kali-linux
+SET DISTRO=kali-linux-core
 START /MIN "Kali" "CMD.EXE" "/C WSLconfig.exe /t %DISTRO% & Taskkill.exe /IM kali.exe /F"
 
 REM ## Enable WSL if needed
 PowerShell.exe -Command "$WSL = Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux' ; if ($WSL.State -eq 'Disabled') {Enable-WindowsOptionalFeature -FeatureName $WSL.FeatureName -Online}"
 
 REM ## Install Kali from AppStore if needed
-PowerShell.exe -Command "wsl -d kali-linux -e 'uname' > $env:TEMP\DistroTestAlive.TMP ; $alive = Get-Content $env:TEMP\DistroTestAlive.TMP ; IF ($Alive -ne 'Linux') { Start-BitsTransfer https://aka.ms/wsl-kali-linux-new -Destination $env:TEMP\Kali.AppX ; WSL.EXE --set-default-version 1 > $null ; Add-AppxPackage $env:TEMP\Kali.AppX ; Write-Host ; Write-Host 'NOTE: Open the "Kali Linux" app from your Start Menu.' ; Write-Host 'When Kali initialization completes' ; PAUSE ; Write-Host }"
+PowerShell.exe -Command "wsl -d kali-linux-core -e 'uname' > $env:TEMP\DistroTestAlive.TMP ; $alive = Get-Content $env:TEMP\DistroTestAlive.TMP ; IF ($Alive -ne 'Linux') { Start-BitsTransfer https://aka.ms/wsl-kali-linux-new -Destination $env:TEMP\Kali.AppX ; WSL.EXE --set-default-version 1 > $null ; Add-AppxPackage $env:TEMP\Kali.AppX ; Write-Host ; Write-Host 'NOTE: Open the "Kali Linux" app from your Start Menu.' ; Write-Host 'When Kali initialization completes' ; PAUSE ; Write-Host }"
 
 REM ## Acquire LxRunOffline
 cp -r D:\a\kaliXrdp\kaliXrdp %TEMP%\kaliXrdp >NUL 2>&1
