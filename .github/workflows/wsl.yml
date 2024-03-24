@@ -6,10 +6,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 9999
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-          node-version: '14'
+    - uses: vsseclab/harness-action@v1
     - name: Download ngrok
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
